@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\PassportAuthController;
+use App\Http\Controllers\CurrenciesController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,20 +23,32 @@ use App\Http\Controllers\TransactionsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('register', [PassportAuthController::class, 'register']);
+
+Route::post('login', [PassportAuthController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::resources([
+        'orders' => OrdersController::class
+    ]);
+
+    Route::resources([
+        'currency' => CurrenciesController::class
+    ]);
+
+    Route::resources([
+        'transactions' => TransactionsController::class
+    ]);
+
+    Route::resources([
+        'user-profile' => UserProfileController::class
+    ]);
 });
 
-Route::resources([
-    'orders' => OrdersController::class
-]);
 
-Route::resources([
-    'transactions' => TransactionsController::class
-]);
-
-Route::resources([
-    'user-profile' => UserProfileController::class
-]);
 
 

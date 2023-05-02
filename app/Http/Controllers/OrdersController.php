@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Order;
+use App\Models\Currency;
 use App\Http\Requests\CreateOrderRequest;
+use App\Http\Requests\ShowOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
+
+
 
 class OrdersController extends Controller
 {
@@ -32,32 +37,37 @@ class OrdersController extends Controller
     {
        $validated = $request->validated();
        Order::create($validated);
-       return;
+       return ["order" => $validated];
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(string $orderId)
     {
-        $body = $request->getContent();
-        return ["id" => $body];
+       $order = Order::find($orderId);
+       return ["order" => $order];
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $orderId)
     {
-        //
+      //
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateOrderRequest $request, string $orderId)
     {
-        //
+        $validated = $request->validated();
+        $currency = Currency::findOrFail($validated);
+        $order = Order::find($orderId);
+        $order->update($validated);
+        return ["order" => $order];
     }
 
     /**

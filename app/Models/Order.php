@@ -10,9 +10,9 @@ class Order extends Model
 { 
     use HasFactory;
 
-    public int $userId;
-    public int $currencyId;
-    public int $platformId;
+    public string $userId;
+    public string $currencyId;
+    public string $platformId;
     public double $amount;
     public int $recipient;
     public string $status;

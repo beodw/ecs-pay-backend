@@ -10,4 +10,5 @@ class Currency extends Model
     use HasFactory;
 
     public string $name;
+    public string $code;
 }
