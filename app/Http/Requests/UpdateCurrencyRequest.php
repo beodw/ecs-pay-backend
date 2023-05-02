@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOrderRequest extends FormRequest
+class UpdateCurrencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            "userId" => "string",
-            "amount" => "decimal:0,3",
-            "recipient" => "integer"
+            "currencyId" => "required|string",
+            "name" => "string",
+            "code" => "string|size:3"
         ];
     }
 }

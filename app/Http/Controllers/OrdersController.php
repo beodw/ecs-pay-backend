@@ -63,6 +63,11 @@ class OrdersController extends Controller
      */
     public function update(UpdateOrderRequest $request, string $orderId)
     {
+        //Todo
+        //only amount should be updatable by admin and payer
+        //once update is made send a notification via email to customer
+        //on sender can change recipient details.
+        //create a hiistory for an order if edits are made.
         $validated = $request->validated();
         $currency = Currency::findOrFail($validated);
         $order = Order::find($orderId);

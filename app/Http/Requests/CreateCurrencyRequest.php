@@ -25,7 +25,7 @@ class CreateCurrencyRequest extends FormRequest
     {
         return [
             "name" => "required|string",
-            "code" => "required|string|maxlength:3"
+            "code" => "required|string|size:3"
         ];
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use App\Http\Requests\CreateCurrencyRequest;
+use App\Http\Requests\UpdateCurrencyRequest;
+
 use Illuminate\Http\Request;
 
 class CurrenciesController extends Controller
@@ -48,9 +50,10 @@ class CurrenciesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(string $id)
     {
-        //
+        $currency = Currency::findOrFail($id);
+        return ["currency" => $currency];
     }
 
     /**
@@ -71,9 +74,12 @@ class CurrenciesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCurrencyRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $currency = Currency::findOrFail($validated);
+        $currency->update();
+        return ["currency" => $currency];
     }
 
     /**

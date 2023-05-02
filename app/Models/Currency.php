@@ -11,4 +11,6 @@ class Currency extends Model
 
     public string $name;
     public string $code;
+    
+    protected $guarded = [];
 }
