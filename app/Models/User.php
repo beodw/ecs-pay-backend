@@ -8,6 +8,8 @@ use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+use App\Enums\UserRole;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -18,9 +20,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'user_name',
         'email',
         'password',
+        'user_role',
+        'whatsapp_number',
+        'is_verified',
+        'country_code',
+        'otp'
     ];
 
     /**
@@ -31,6 +38,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        '_id',
+        'created_at',
+        'updated_at',
+        'is_verified',
+        'otp'
     ];
 
     /**
@@ -41,6 +53,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin(){
+        return $this->user_role === "Admin";
+    }
 
      
 }

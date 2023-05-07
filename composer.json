@@ -13,6 +13,8 @@
         "laravel/passport": "^11.8",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
+        "symfony/intl": "^6.2",
+        "twilio/sdk": "^7.3",
         "wendelladriel/laravel-validated-dto": "^2.6"
     },
     "require-dev": {

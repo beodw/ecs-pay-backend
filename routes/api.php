@@ -31,6 +31,10 @@ Route::post('register', [PassportAuthController::class, 'register']);
 
 Route::post('login', [PassportAuthController::class, 'login']);
 
+Route::post('verifyOtp', [PassportAuthController::class, 'verifyOtp']);
+
+Route::post('generateOtp', [PassportAuthController::class, 'generateOtp']);
+
 Route::middleware('auth:api')->group(function () {
     Route::resources([
         'orders' => OrdersController::class

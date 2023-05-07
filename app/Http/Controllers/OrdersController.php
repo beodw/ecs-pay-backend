@@ -19,7 +19,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-       
+      // return ["orders" => auth()->user()->isAdmin()];
     }
 
     /**
@@ -67,7 +67,10 @@ class OrdersController extends Controller
         //only amount should be updatable by admin and payer
         //once update is made send a notification via email to customer
         //on sender can change recipient details.
-        //create a hiistory for an order if edits are made.
+        //create a history for an order if edits are made.
+        if(!auth()->user()->admin()){
+            return response()->json(["Error" => "Only admin can update an order."], 401);
+        }
         $validated = $request->validated();
         $currency = Currency::findOrFail($validated);
         $order = Order::find($orderId);
