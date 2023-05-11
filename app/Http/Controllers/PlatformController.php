@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\Currency;
-use App\Http\Requests\CreateCurrencyRequest;
-use App\Http\Requests\UpdateCurrencyRequest;
-
 use Illuminate\Http\Request;
+use App\Models\Platform;
+use App\Http\Requests\CreatePlatformRequest;
+use App\Http\Requests\EditPlatformRequest;
 
-class CurrenciesController extends Controller
+
+class PlatformController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +17,8 @@ class CurrenciesController extends Controller
      */
     public function index()
     {
-        $currencies = Currency::all();
-        return $currencies;
+
+        return ["platforms" => Platform::all()];
     }
 
     /**
@@ -38,11 +37,10 @@ class CurrenciesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCurrencyRequest $request)
+    public function store(CreatePlatformRequest $request)
     {
         $validated = $request->validated();
-        $currency = Currency::create($validated);
-        return ["currency" => $currency];
+        return ["platform" => Platform::create($validated)];
     }
 
     /**
@@ -53,8 +51,7 @@ class CurrenciesController extends Controller
      */
     public function show(string $id)
     {
-        $currency = Currency::findOrFail($id);
-        return ["currency" => $currency];
+        return Platform::findOrFail($id);
     }
 
     /**
@@ -63,7 +60,7 @@ class CurrenciesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
     }
@@ -72,15 +69,12 @@ class CurrenciesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCurrencyRequest $request)
+    public function update(EditPlatformRequest $request, string $id)
     {
-        $validated = $request->validated();
-        $currency = Currency::findOrFail($validated);
-        $currency->update();
-        return ["currency" => $currency];
+        $platform = Platform::findOrFail($id)->update($request->all());
     }
 
     /**

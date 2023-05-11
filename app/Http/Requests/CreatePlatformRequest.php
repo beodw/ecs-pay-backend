@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditOrderRequest extends FormRequest
+class CreatePlatformRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class EditOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->isAdmin();
     }
 
     /**
@@ -24,8 +24,8 @@ class EditOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            "orderId" => "required|string",
-            "status" => "required|string"
+            "name" => "required|string",
+            "details" => "required|array"
         ];
     }
 }

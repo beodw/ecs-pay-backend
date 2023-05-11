@@ -50,7 +50,7 @@ class PassportAuthController extends Controller
                             ->orWhere( "whatsapp_number", $request->whatsapp_number)
                             ->first();
         
-        if($existingUser?->email === $request->email){
+        if($existingUser?->email != null && $existingUser?->email === $request->email){
             return response()->json(["Error" => "User with that email already exists."], 400);
         }
 
@@ -72,7 +72,6 @@ class PassportAuthController extends Controller
         //send sms otp
         try{
             $otp = $this->sendSms($request);
-            // $smsOtpManager->sendMessage("Thank you for signing up to ECS Pay. This is your signup otp: $otp", $phone_number);
         }
         catch(TwilioException $e){
             return response()->json(["Error" => "Invalid phone number. Could not send otp via sms."], 400);
@@ -91,11 +90,13 @@ class PassportAuthController extends Controller
 
         //To do store otp and link to user. Ensure it has been generated within 1 hr.
 
-        //Send email otp.
-        $email = [
-            'user_name' => $request->user_name,
-        ];
-        Mail::to($request->email)->send(new OTP($email));
+        if($request->email != null){
+            //Send email otp.
+            $email = [
+                'user_name' => $request->user_name,
+            ];
+            Mail::to($request->email)->send(new OTP($email));
+        }
 
         return response(["status" => 200, "message" => "OTP sent to $phone_number. Kindly, check your sms to verify."]);
     }
@@ -150,7 +151,7 @@ class PassportAuthController extends Controller
         $loginSuccess = auth()->attempt($loginDetails);
 
         if(!$loginSuccess){
-            return response()->json(["Error" => "Login details are wrong. Check userName, password and email/whatsappNumber"], 401);
+            return response()->json(["Error" => "Login details are wrong. Check password and email/whatsappNumber"], 401);
         }
 
         $user = auth()->user();

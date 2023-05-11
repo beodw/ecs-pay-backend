@@ -30,7 +30,7 @@ class RegisterUserRequest extends FormRequest
     {
         return [
             'user_name' => 'required|min:4',
-            'email' => 'required|email',
+            'email' => 'email',
             'password' => 'required|confirmed|min:8',
             'whatsapp_number' => [
                 'required',

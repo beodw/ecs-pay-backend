@@ -11,4 +11,8 @@ class Platform extends Model
 
     public string $name;
     public array $details;
+
+    protected $hidden = ["updated_at", "created_at"];
+
+    protected $guarded = [];
 }

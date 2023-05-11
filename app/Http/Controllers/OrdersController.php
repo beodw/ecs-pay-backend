@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Models\Order;
 use App\Models\Currency;
+use App\Models\Platform;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\ShowOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-
 
 
 class OrdersController extends Controller
@@ -35,9 +35,20 @@ class OrdersController extends Controller
      */
     public function store(CreateOrderRequest $request)
     {
-       $validated = $request->validated();
-       Order::create($validated);
-       return ["order" => $validated];
+      // if (!auth()->user()->isSender()){
+      //   return response()->json(["Error" => "Only a sender can create an order."], 403);
+      // }
+
+      Currency::findOrFail($request->currencyId);
+      Currency::findOrFail($request->recipientCurrencyId);
+
+      $platform = Platform::findOrFail($request->platformId)->first();
+
+
+      return ["platform"=>$platform->details];
+
+      Order::create($request);
+      return ["order" => $request];
     }
 
     /**
@@ -45,16 +56,22 @@ class OrdersController extends Controller
      */
     public function show(string $orderId)
     {
-       $order = Order::find($orderId);
+       $order = Order::findOrFail($orderId);
+       $user = auth()->user();
+       if ($user->isSender()){
+          if ($order->userId != $user->_id){
+            return response()->json(["Error" => "Sender can only access their own order."], 403);
+          } 
+       }
        return ["order" => $order];
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $orderId)
+    public function edit(EditOrderRequest $request)
     {
-      //
+      // if 
         
     }
 

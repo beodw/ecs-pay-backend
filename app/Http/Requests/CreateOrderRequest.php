@@ -13,7 +13,7 @@ class CreateOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->isSender();
     }
 
     /**
@@ -24,11 +24,12 @@ class CreateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            "userId" => "required|integer",
+            "userId" => "required|string",
             "currencyId" => "required|string",
             "platformId" => "required|string",
             "amount" => "required|decimal:0,3",
-            "recipientId" => "required|string"
+            // "recipient" => "required|array",
+            "recipientCurrencyId" => "required|string"
         ];
     }
 }

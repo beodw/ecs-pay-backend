@@ -58,5 +58,9 @@ class User extends Authenticatable
         return $this->user_role === "Admin";
     }
 
+    public function isSender(){
+        return $this->user_role === "Sender";
+    }
+
      
 }
