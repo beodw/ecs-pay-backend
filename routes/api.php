@@ -10,6 +10,7 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\CurrenciesController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,6 +44,8 @@ Route::middleware('auth:api')->group(function () {
 
         'orders' => OrdersController::class
     ]);
+
+    Route::get('orders/search', [OrdersController::class, 'search']);
 
 });
 

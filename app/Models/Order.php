@@ -14,8 +14,10 @@ class Order extends Model
     public string $currencyId;
     public string $platformId;
     public double $amount;
-    public int $recipient;
+    public $recipient;
     public string $status;
+    public $platformDetails;
+    public bool $archived = false;
 
     protected $guarded = [];
 

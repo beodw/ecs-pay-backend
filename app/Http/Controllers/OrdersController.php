@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Currency;
 use App\Models\Platform;
+use App\Models\CountryCode;
+use App\Models\User;
+
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\ShowOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+
 
 
 class OrdersController extends Controller
@@ -19,7 +23,11 @@ class OrdersController extends Controller
      */
     public function index()
     {
-      // return ["orders" => auth()->user()->isAdmin()];
+      $user = auth()->user();
+      if($user->isSender()){
+        return Order::where('userId', $user->_id)->get();
+      }
+      return Order::paginate(10);
     }
 
     /**
@@ -30,25 +38,65 @@ class OrdersController extends Controller
        //
     }
 
+    public function checkPlatformDetails($platformId, $details){
+      try{
+            $platform = Platform::findOrFail($platformId);
+      }
+      catch(Exception $e){
+          return false;
+      }
+      return sort(array_keys($details)) == sort(array_keys($platform['details']));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(CreateOrderRequest $request)
     {
-      // if (!auth()->user()->isSender()){
-      //   return response()->json(["Error" => "Only a sender can create an order."], 403);
-      // }
+      //check user exists.
+      User::findOrFail($request->userId);
 
+      //Check if currencies are valid.
       Currency::findOrFail($request->currencyId);
       Currency::findOrFail($request->recipientCurrencyId);
 
-      $platform = Platform::findOrFail($request->platformId)->first();
+      //Verify platform is supported by us.
+      Platform::findOrFail($request->platformId);
 
+      //Check if country code exists.
+      CountryCode::where("code", $request->recipient["country_code"])->firstOrFail();
+      
+      //send alert to recipient
+      $platform = Platform::findOrFail($request->platformId);
 
-      return ["platform"=>$platform->details];
+      //check if fields supplied for platform are correct.
+      $platformDetails = $platform['details'];
+      $platformDetailsInRequest = array_keys($request->platformDetails);
 
-      Order::create($request);
-      return ["order" => $request];
+      $diff= array_diff($platformDetails, $platformDetailsInRequest);
+
+      if($diff != []){
+        return response()->json(["Error"=> ["The following platform details were not found." => $diff]], 403);
+      }
+
+      $order = [
+        "userId" => $request->userId,
+        "currencyId"=> $request->currencyId,
+        "platformId"=> $request->platformId,
+        "amount"=> $request->amount,
+        "recipient"=> $request->recipient,
+        "recipientCurrencyId"=> $request->recipientCurrencyId,
+        "platformDetails" => $request->platformDetails,
+      ];
+
+      //send confirmation to recipient that order has ben made to them.
+
+      Order::create($order);
+      return ["order" => $order];
+    }
+
+    public function search (Request $request){
+        return ["q"=> "ssd"];
     }
 
     /**
@@ -100,6 +148,14 @@ class OrdersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+      $user = auth()->user();
+      if(!$user->isAdmin()){
+          return response()->json(["Error"=> ""],403);
+      }
+
+      $order = Order::findOrFail($id);
+      $order = $order->archived = true;
+      $order->update($order);
+     
     }
 }

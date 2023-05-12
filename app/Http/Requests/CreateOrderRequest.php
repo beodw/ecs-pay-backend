@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\isJson;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest
@@ -28,8 +30,12 @@ class CreateOrderRequest extends FormRequest
             "currencyId" => "required|string",
             "platformId" => "required|string",
             "amount" => "required|decimal:0,3",
-            // "recipient" => "required|array",
-            "recipientCurrencyId" => "required|string"
+            "recipient.name" => "required|string",
+            "recipient.address" => "string",
+            "recipient.phone" => "string",
+            "recipient.country_code" => "required_with:recipient.phone|string|regex:/^[A-Z]{2}$/",
+            "recipientCurrencyId" => "required|string",
+            "platformDetails" => ["required", new isJson],
         ];
     }
 }
