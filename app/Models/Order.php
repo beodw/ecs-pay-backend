@@ -13,7 +13,7 @@ class Order extends Model
     public string $userId;
     public string $currencyId;
     public string $platformId;
-    public double $amount;
+    public float $amount;
     public $recipient;
     public string $status;
     public $platformDetails;

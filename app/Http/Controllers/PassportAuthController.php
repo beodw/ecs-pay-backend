@@ -130,8 +130,34 @@ class PassportAuthController extends Controller
     }
  
     /**
-     * Login
-     */
+        * @OA\Post(
+        * path="/api/login",
+        * operationId="authLogin",
+        * tags={"Login"},
+        * summary="User Login",
+        * description="Login User Here",
+        *   @OA\RequestBody(
+        *    required=true,
+        *    description="Pass user credentials",
+        *    @OA\JsonContent(
+        *       required={"password"},
+        *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+        *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+        *       @OA\Property(property="password_confirmation", type="string", format="password", example="PassWord12345"),
+        *       @OA\Property(property="whatsappNumber", format="phone", type="string", example="0502342345"),
+        *       @OA\Property(property="countryCode", type="string", example="GH"),
+        *    ),
+        * ),
+        *      @OA\Response(
+        *          response=201,
+        *          description="Login Successfully",
+        *          @OA\JsonContent()
+        *       ),
+        *      
+        *    
+
+        * )
+        */
     public function login(LoginRequest $request)
     { 
         $loginDetails = [];
