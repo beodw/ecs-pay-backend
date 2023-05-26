@@ -6,16 +6,39 @@ provider:
   region: eu-west-3
   # Environment variables
   environment:
-    APP_ENV: production # Or use ${sls:stage} if you want the environment to match the stage
+    APP_ENV: local # Or use ${sls:stage} if you want the environment to match the stage
+    APP_KEY: base64:tBAhF5+/eGUhw7yhtfgEwFD6NGaGcK5zApvFj0ZG38k=
+    APP_DEBUG: true # set to false when moving to production
+    LOG_CHANNEL: stderr # this will send logs to CloudWatch automatically
+    SESSION_DRIVER: cookie # to avoid writing sessions to disk
+    VIEW_COMPILED_PATH: /tmp/storage/framework/views
+    DB_CONNECTION: mongodb
+    DB_DATABASE: mongodbVSCodePlaygroundDB
+    DB_USERNAME: admin-user
+    DB_PASSWORD: ZPrrQhgPbH3wGSBW
+    TWILIO_SID: ACb8c4e3dbe55290d6bc12b13d95f8e0ce
+    TWILIO_AUTH_TOKEN: f7ec7b13d4fa90e4f0e651eb26457943
+    TWILIO_NUMBER: +12705618962
+
+    MAIL_DRIVER: smtp
+    MAIL_HOST: smtp.gmail.com
+    MAIL_POR: 465
+    MAIL_USERNAME: beodwilson@gmail.com
+    MAIL_PASSWORD: nuaigsfcgnajfwge
+    MAIL_ENCRYPTION: ssl
+    MAIL_FROM_NAME: ECSPay
 
 package:
   # Files and directories to exclude from deployment
   patterns:
     - "!node_modules/**"
-    - "!public/storage"
+    # - "!public/storage"
     - "!resources/assets/**"
     - "!storage/**"
     - "!tests/**"
+    # Except the public and private keys required by Laravel Passport
+    - "storage/oauth-private.key"
+    - "storage/oauth-public.key"
 
 functions:
   # This function runs the Laravel website/API
@@ -34,11 +57,11 @@ functions:
 
   # This function lets us run artisan commands in Lambda
   artisan:
-    handler: artisan
-    # runtime: php-81-console
+    handler: bin/console
+    runtime: php-81-console
     timeout: 720 # in seconds
     layers:
-      - ${bref:layer.php-81}
+      - ${bref-extra:mongodb-php-81}
       - ${bref:layer.console}
     # Uncomment to also run the scheduler every minute
     #events:

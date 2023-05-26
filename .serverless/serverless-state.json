@@ -8,7 +8,26 @@
       "name": "aws",
       "region": "eu-west-3",
       "environment": {
-        "APP_ENV": "production"
+        "APP_ENV": "local",
+        "APP_KEY": "base64:tBAhF5+/eGUhw7yhtfgEwFD6NGaGcK5zApvFj0ZG38k=",
+        "APP_DEBUG": "true",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie",
+        "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+        "DB_CONNECTION": "mongodb",
+        "DB_DATABASE": "mongodbVSCodePlaygroundDB",
+        "DB_USERNAME": "admin-user",
+        "DB_PASSWORD": "ZPrrQhgPbH3wGSBW",
+        "TWILIO_SID": "ACb8c4e3dbe55290d6bc12b13d95f8e0ce",
+        "TWILIO_AUTH_TOKEN": "f7ec7b13d4fa90e4f0e651eb26457943",
+        "TWILIO_NUMBER": "12705618962",
+        "MAIL_DRIVER": "smtp",
+        "MAIL_HOST": "smtp.gmail.com",
+        "MAIL_POR": "465",
+        "MAIL_USERNAME": "beodwilson@gmail.com",
+        "MAIL_PASSWORD": "nuaigsfcgnajfwge",
+        "MAIL_ENCRYPTION": "ssl",
+        "MAIL_FROM_NAME": "ECSPay"
       },
       "stage": "dev",
       "versionFunctions": true,
@@ -183,7 +202,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ecsPayBackend/dev/1684786774579-2023-05-22T20:19:34.579Z/ecsPayBackend.zip"
+                "S3Key": "serverless/ecsPayBackend/dev/1685105894615-2023-05-26T12:58:14.615Z/ecsPayBackend.zip"
               },
               "Handler": "public/index.php",
               "Runtime": "provided.al2",
@@ -192,7 +211,26 @@
               "Timeout": 28,
               "Environment": {
                 "Variables": {
-                  "APP_ENV": "production"
+                  "APP_ENV": "local",
+                  "APP_KEY": "base64:tBAhF5+/eGUhw7yhtfgEwFD6NGaGcK5zApvFj0ZG38k=",
+                  "APP_DEBUG": "true",
+                  "LOG_CHANNEL": "stderr",
+                  "SESSION_DRIVER": "cookie",
+                  "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+                  "DB_CONNECTION": "mongodb",
+                  "DB_DATABASE": "mongodbVSCodePlaygroundDB",
+                  "DB_USERNAME": "admin-user",
+                  "DB_PASSWORD": "ZPrrQhgPbH3wGSBW",
+                  "TWILIO_SID": "ACb8c4e3dbe55290d6bc12b13d95f8e0ce",
+                  "TWILIO_AUTH_TOKEN": "f7ec7b13d4fa90e4f0e651eb26457943",
+                  "TWILIO_NUMBER": "12705618962",
+                  "MAIL_DRIVER": "smtp",
+                  "MAIL_HOST": "smtp.gmail.com",
+                  "MAIL_POR": "465",
+                  "MAIL_USERNAME": "beodwilson@gmail.com",
+                  "MAIL_PASSWORD": "nuaigsfcgnajfwge",
+                  "MAIL_ENCRYPTION": "ssl",
+                  "MAIL_FROM_NAME": "ECSPay"
                 }
               },
               "Role": {
@@ -218,7 +256,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ecsPayBackend/dev/1684786774579-2023-05-22T20:19:34.579Z/ecsPayBackend.zip"
+                "S3Key": "serverless/ecsPayBackend/dev/1685105894615-2023-05-26T12:58:14.615Z/ecsPayBackend.zip"
               },
               "Handler": "artisan",
               "Runtime": "nodejs14.x",
@@ -227,7 +265,26 @@
               "Timeout": 720,
               "Environment": {
                 "Variables": {
-                  "APP_ENV": "production"
+                  "APP_ENV": "local",
+                  "APP_KEY": "base64:tBAhF5+/eGUhw7yhtfgEwFD6NGaGcK5zApvFj0ZG38k=",
+                  "APP_DEBUG": "true",
+                  "LOG_CHANNEL": "stderr",
+                  "SESSION_DRIVER": "cookie",
+                  "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+                  "DB_CONNECTION": "mongodb",
+                  "DB_DATABASE": "mongodbVSCodePlaygroundDB",
+                  "DB_USERNAME": "admin-user",
+                  "DB_PASSWORD": "ZPrrQhgPbH3wGSBW",
+                  "TWILIO_SID": "ACb8c4e3dbe55290d6bc12b13d95f8e0ce",
+                  "TWILIO_AUTH_TOKEN": "f7ec7b13d4fa90e4f0e651eb26457943",
+                  "TWILIO_NUMBER": "12705618962",
+                  "MAIL_DRIVER": "smtp",
+                  "MAIL_HOST": "smtp.gmail.com",
+                  "MAIL_POR": "465",
+                  "MAIL_USERNAME": "beodwilson@gmail.com",
+                  "MAIL_PASSWORD": "nuaigsfcgnajfwge",
+                  "MAIL_ENCRYPTION": "ssl",
+                  "MAIL_FROM_NAME": "ECSPay"
                 }
               },
               "Role": {
@@ -237,32 +294,31 @@
                 ]
               },
               "Layers": [
-                "arn:aws:lambda:eu-west-3:534081306603:layer:php-81:48",
-                "arn:aws:lambda:eu-west-3:534081306603:layer:console:47"
+                "arn:aws:lambda:eu-west-3:403367587399:layer:mongodb-php-81:10"
               ]
             },
             "DependsOn": [
               "ArtisanLogGroup"
             ]
           },
-          "WebLambdaVersionLdgPOq8Tbg2kiLNIInTJoSQYjMylbzxBNjEXfjfDuc": {
+          "WebLambdaVersionZLXxg7w1iPIUCZxPZvchbk6JvfIVC8Il98rLRQE2jc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "WebLambdaFunction"
               },
-              "CodeSha256": "G7smUWOLYooogjlD0IhYMg6t9tEGzQDAL8OBdm/GeoM="
+              "CodeSha256": "7BittlSTxyTkHz809Sj8aOZv0LzN3gHhbZDJh/nevJM="
             }
           },
-          "ArtisanLambdaVersion5KxkD9PoPykSD0yPJHAFHtiiAqm4VQXM0UKWDA5AgQ": {
+          "ArtisanLambdaVersion2OhUKk8idoEYTow68mrc4OtjzMPs9CmwifHUYfMLtlg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ArtisanLambdaFunction"
               },
-              "CodeSha256": "G7smUWOLYooogjlD0IhYMg6t9tEGzQDAL8OBdm/GeoM="
+              "CodeSha256": "7BittlSTxyTkHz809Sj8aOZv0LzN3gHhbZDJh/nevJM="
             }
           },
           "ApiGatewayRestApi": {
@@ -387,7 +443,7 @@
               "WebLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1684786757603": {
+          "ApiGatewayDeployment1685105875661": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -542,7 +598,7 @@
           "WebLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "WebLambdaVersionLdgPOq8Tbg2kiLNIInTJoSQYjMylbzxBNjEXfjfDuc"
+              "Ref": "WebLambdaVersionZLXxg7w1iPIUCZxPZvchbk6JvfIVC8Il98rLRQE2jc"
             },
             "Export": {
               "Name": "sls-ecsPayBackend-dev-WebLambdaFunctionQualifiedArn"
@@ -551,7 +607,7 @@
           "ArtisanLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ArtisanLambdaVersion5KxkD9PoPykSD0yPJHAFHtiiAqm4VQXM0UKWDA5AgQ"
+              "Ref": "ArtisanLambdaVersion2OhUKk8idoEYTow68mrc4OtjzMPs9CmwifHUYfMLtlg"
             },
             "Export": {
               "Name": "sls-ecsPayBackend-dev-ArtisanLambdaFunctionQualifiedArn"
@@ -732,7 +788,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "WebLambdaVersionLdgPOq8Tbg2kiLNIInTJoSQYjMylbzxBNjEXfjfDuc"
+        "versionLogicalId": "WebLambdaVersionZLXxg7w1iPIUCZxPZvchbk6JvfIVC8Il98rLRQE2jc"
       },
       "artisan": {
         "handler": "artisan",
@@ -746,7 +802,7 @@
         "memory": 1024,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "ArtisanLambdaVersion5KxkD9PoPykSD0yPJHAFHtiiAqm4VQXM0UKWDA5AgQ"
+        "versionLogicalId": "ArtisanLambdaVersion2OhUKk8idoEYTow68mrc4OtjzMPs9CmwifHUYfMLtlg"
       }
     },
     "configValidationMode": "warn",
@@ -759,14 +815,15 @@
       "package": {
         "patterns": [
           "!node_modules/**",
-          "!public/storage",
           "!resources/assets/**",
           "!storage/**",
-          "!tests/**"
+          "!tests/**",
+          "tmp/storage/oauth-private.key",
+          "tmp/storage/oauth-public.key"
         ],
         "artifactsS3KeyDirname": "serverless/ecsPayBackend/dev/code-artifacts",
         "artifact": "/Users/beodwilson/Documents/Dev/ECS Proj/ecs-pay-backend/.serverless/ecsPayBackend.zip",
-        "artifactDirectoryName": "serverless/ecsPayBackend/dev/1684786774579-2023-05-22T20:19:34.579Z"
+        "artifactDirectoryName": "serverless/ecsPayBackend/dev/1685105894615-2023-05-26T12:58:14.615Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -780,7 +837,7 @@
     "artifact": "/Users/beodwilson/Documents/Dev/ECS Proj/ecs-pay-backend/.serverless/ecsPayBackend.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/ecsPayBackend/dev/1684786774579-2023-05-22T20:19:34.579Z",
+    "artifactDirectoryName": "serverless/ecsPayBackend/dev/1685105894615-2023-05-26T12:58:14.615Z",
     "artifact": "ecsPayBackend.zip"
   }
 }
