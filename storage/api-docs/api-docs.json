@@ -5,6 +5,96 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "User Registeration",
+                "description": "Register User Here",
+                "operationId": "Register",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password",
+                                    "password_confirmation",
+                                    "whatsappNumber",
+                                    "countryCode",
+                                    "user_name",
+                                    "first_name",
+                                    "last_name",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "user_name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "JohnD"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    },
+                                    "whatsapp_number": {
+                                        "type": "string",
+                                        "format": "phone",
+                                        "example": "0502342345"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "GH"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Ghana"
+                                    },
+                                    "town_city": {
+                                        "type": "string",
+                                        "example": "Accra"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -33,17 +123,12 @@
                                         "format": "password",
                                         "example": "PassWord12345"
                                     },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "PassWord12345"
-                                    },
-                                    "whatsappNumber": {
+                                    "whatsapp_number": {
                                         "type": "string",
                                         "format": "phone",
                                         "example": "0502342345"
                                     },
-                                    "countryCode": {
+                                    "country_code": {
                                         "type": "string",
                                         "example": "GH"
                                     }

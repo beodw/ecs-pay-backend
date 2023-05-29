@@ -27,7 +27,10 @@ class User extends Authenticatable
         'whatsapp_number',
         'is_verified',
         'country_code',
-        'otp'
+        'country',
+        'town/city',
+        'zip',
+        'street_name',
     ];
 
     /**

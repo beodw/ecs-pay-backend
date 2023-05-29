@@ -28,7 +28,7 @@ class LoginRequest extends FormRequest
             'whatsapp_number' => [
                 'regex:/^0\d{9,15}$/',
             ],
-            'password' => 'required|confirmed|min:8',
+            'password' => 'required|min:8',
         ];
     }
 }

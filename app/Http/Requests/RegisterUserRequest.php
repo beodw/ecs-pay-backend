@@ -29,6 +29,8 @@ class RegisterUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'first_name' => 'required|min:3',
+            'last_name' => 'required|min:3',
             'user_name' => 'required|min:4',
             'email' => 'email',
             'password' => 'required|confirmed|min:8',
@@ -36,7 +38,9 @@ class RegisterUserRequest extends FormRequest
                 'required',
                 'regex:/^0\d{9,15}$/',
             ],
-            'country_code' => 'required'
+            'country_code' => 'required',
+            'country' => 'required',
+            'town_city' => 'required',
         ];
     }
 }

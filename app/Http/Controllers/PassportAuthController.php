@@ -38,8 +38,38 @@ class PassportAuthController extends Controller
     }
 
     /**
-     * Registration
-     */
+    * @OA\Post(
+    * path="/api/register",
+    * operationId="Register",
+    * tags={"Register"},
+    * summary="User Registeration",
+    * description="Register User Here",
+    *   @OA\RequestBody(
+    *    required=true,
+    *    description="Pass user credentials",
+    *    @OA\JsonContent(
+    *       required={"password", "password_confirmation", "whatsappNumber", "countryCode", "user_name", "first_name", "last_name", "country"},
+    *       @OA\Property(property="first_name", type="string", format="string", example="John"),
+    *       @OA\Property(property="last_name", type="string", format="string", example="Doe"),
+    *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+    *       @OA\Property(property="user_name", type="string", format="string", example="JohnD"),
+    *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+    *       @OA\Property(property="password_confirmation", type="string", format="password", example="PassWord12345"),
+    *       @OA\Property(property="whatsapp_number", format="phone", type="string", example="0502342345"),
+    *       @OA\Property(property="country_code", type="string", example="GH"),
+    *       @OA\Property(property="country", type="string", example="Ghana"),
+    *       @OA\Property(property="town_city", type="string", example="Accra"),
+    *    ),
+    * ),
+    *      @OA\Response(
+    *          response=201,
+    *          description="Registered Successfully",
+    *          @OA\JsonContent()
+    *       ),
+    *      
+    *    
+    * )
+    */
     public function register(RegisterUserRequest $request)
     {
         //Check if country code exists.
@@ -58,10 +88,18 @@ class PassportAuthController extends Controller
             return response()->json(["Error" => "User with that whatsapp number already exists."], 400);
         }
 
-        //send sms otp
-        $smsOtpManager = new SmsOtpManager();
+        //find dial number for given country code.
+        try {
+            $country_phone_details = CountryCode::where("code", $request->country_code)->firstOrFail();
+        }
+        catch(Exception $e) {
+            return response()->json(["Error" => "Invalid country code. Could not find a country with specified code."], 400);
+        }
         
-        $country_phone_details = CountryCode::where("code", $request->country_code)->first();
+        //Check if phone matches country.
+        if($request->country != $country_phone_details['name']){
+            return response()->json(["Error" => "Phone number does not match selected country."], 400);
+        }
         
         //add country code to phone number string.
         $phone_number = "".$country_phone_details['dial_code']; 
@@ -70,7 +108,7 @@ class PassportAuthController extends Controller
         $phone_number = $phone_number.substr($request->whatsapp_number, 1);
 
         //send sms otp
-        try{
+        try {
             $otp = $this->sendSms($request);
         }
         catch(TwilioException $e){
@@ -78,6 +116,8 @@ class PassportAuthController extends Controller
         }
 
         $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'user_name' => $request->user_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
@@ -85,7 +125,9 @@ class PassportAuthController extends Controller
             'whatsapp_number' => $request->whatsapp_number,
             'country_code' => $request->country_code,
             'is_verified' => false,
-            'otp' => $otp,
+            'town_city' => $request->town_city,
+            'country' => $request->country,
+            'zip' =>  $request->zip
         ]);
 
         //To do store otp and link to user. Ensure it has been generated within 1 hr.
@@ -101,16 +143,45 @@ class PassportAuthController extends Controller
         return response(["status" => 200, "message" => "OTP sent to $phone_number. Kindly, check your sms to verify."]);
     }
 
+
+    /*
+    * @OA\Post(
+    * path="/api/verifyOtp",
+    * operationId="VerifyOtp",
+    * tags={"VerifyOtp"},
+    * summary="Verify OTP",
+    * description="Verify OTP",
+    *   @OA\RequestBody(
+    *    required=true,
+    *    description="Verify user otp",
+    *    @OA\JsonContent(
+    *       required={"password", "password_confirmation", "whatsappNumber", "countryCode", "otp", "country"},
+    *       @OA\Property(property="otp", type="string", format="string", example="9999"),
+    *       @OA\Property(property="whatsapp_number", format="phone", type="string", example="0502342345"),
+    *       @OA\Property(property="country_code", type="string", example="GH"),
+    *    ),
+    * ),
+    *      @OA\Response(
+    *          response=201,
+    *          description="Registered Successfully",
+    *          @OA\JsonContent()
+    *       ),
+    *      
+    *    
+    * )
+    */
+
     public function verifyOtp(VerifyOtpRequest $request){
        //find user with whatsapp and country code and otp
        $user = User::where("whatsapp_number", $request->whatsapp_number)
                         ->where("country_code", $request->country_code)
                         ->where("otp", $request->otp)
                         ->firstOrFail();
+       return response()->json(['Success' => 'User verified.'], 200);
        //change user to verified
        $user['is_verified'] = true;
        $user->save();
-       return ["Success" => $user['user_name']." has been successfully verified."];
+       return response()->json(["Success" => $user['user_name']." has been successfully verified."],200);
     }
 
     public function generateOtp(GenerateOtpRequest $request){
@@ -130,34 +201,32 @@ class PassportAuthController extends Controller
     }
  
     /**
-        * @OA\Post(
-        * path="/api/login",
-        * operationId="authLogin",
-        * tags={"Login"},
-        * summary="User Login",
-        * description="Login User Here",
-        *   @OA\RequestBody(
-        *    required=true,
-        *    description="Pass user credentials",
-        *    @OA\JsonContent(
-        *       required={"password"},
-        *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
-        *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
-        *       @OA\Property(property="password_confirmation", type="string", format="password", example="PassWord12345"),
-        *       @OA\Property(property="whatsappNumber", format="phone", type="string", example="0502342345"),
-        *       @OA\Property(property="countryCode", type="string", example="GH"),
-        *    ),
-        * ),
-        *      @OA\Response(
-        *          response=201,
-        *          description="Login Successfully",
-        *          @OA\JsonContent()
-        *       ),
-        *      
-        *    
-
-        * )
-        */
+    * @OA\Post(
+    * path="/api/login",
+    * operationId="authLogin",
+    * tags={"Login"},
+    * summary="User Login",
+    * description="Login User Here",
+    *   @OA\RequestBody(
+    *    required=true,
+    *    description="Pass user credentials",
+    *    @OA\JsonContent(
+    *       required={"password"},
+    *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+    *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+    *       @OA\Property(property="whatsapp_number", format="phone", type="string", example="0502342345"),
+    *       @OA\Property(property="country_code", type="string", example="GH"),
+    *    ),
+    * ),
+    *      @OA\Response(
+    *          response=201,
+    *          description="Login Successfully",
+    *          @OA\JsonContent()
+    *       ),
+    *      
+    *    
+    * )
+    */
     public function login(LoginRequest $request)
     { 
         $loginDetails = [];
