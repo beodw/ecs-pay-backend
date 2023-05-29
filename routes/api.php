@@ -9,6 +9,8 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\CurrenciesController;
+use App\Http\Controllers\WaitingListController;
+
 
 
 /*
@@ -21,6 +23,8 @@ use App\Http\Controllers\CurrenciesController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('waiting-list-registration', [WaitingListController::class, 'store']);
 
 Route::post('register', [PassportAuthController::class, 'register']);
 

@@ -170,7 +170,6 @@ class PassportAuthController extends Controller
     *    
     * )
     */
-
     public function verifyOtp(VerifyOtpRequest $request){
        //find user with whatsapp and country code and otp
        $user = User::where("whatsapp_number", $request->whatsapp_number)
