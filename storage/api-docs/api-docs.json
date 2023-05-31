@@ -95,6 +95,104 @@
                 }
             }
         },
+        "/api/verifyOtp": {
+            "post": {
+                "tags": [
+                    "VerifyOtp"
+                ],
+                "summary": "Verify OTP",
+                "description": "Verify OTP",
+                "operationId": "VerifyOtp",
+                "requestBody": {
+                    "description": "Verify user otp",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "otp",
+                                    "whatsappNumber",
+                                    "countryCode"
+                                ],
+                                "properties": {
+                                    "otp": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "9999"
+                                    },
+                                    "whatsapp_number": {
+                                        "type": "string",
+                                        "format": "phone",
+                                        "example": "0502342345"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "GH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Verified Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/generateOtp": {
+            "post": {
+                "tags": [
+                    "Generate Otp"
+                ],
+                "summary": "Generate Otp",
+                "description": "Generate OTP",
+                "operationId": "generateOtp",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "whatsapp_number",
+                                    "country_code"
+                                ],
+                                "properties": {
+                                    "whatsapp_number": {
+                                        "type": "string",
+                                        "format": "phone",
+                                        "example": "0502342345"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "GH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Login Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
