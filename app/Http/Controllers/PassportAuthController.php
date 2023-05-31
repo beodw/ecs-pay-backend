@@ -208,7 +208,11 @@ class PassportAuthController extends Controller
     * ),
     *      @OA\Response(
     *          response=201,
-    *          description="Login Successfully",
+    *          description="
+    *               
+    *                   'Success': 'Otp has been sent to +233502785489'
+    *                   
+    *          ",
     *          @OA\JsonContent()
     *       ),
     *      

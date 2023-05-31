@@ -183,7 +183,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Login Successfully",
+                        "description": "\n    *               \n    *                   'Success': 'Otp has been sent to +233502785489'\n    *                   \n    *          ",
                         "content": {
                             "application/json": {
                                 "schema": {}
