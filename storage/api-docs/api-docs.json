@@ -137,7 +137,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Verified Successfully",
+                        "description": "'Success' : Beod has been successfully verified.'",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -239,6 +239,53 @@
                 "responses": {
                     "201": {
                         "description": "Login Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/waiting-list-registration": {
+            "post": {
+                "tags": [
+                    "WaitingList"
+                ],
+                "summary": "Waiting list for users",
+                "description": "Add user to waiting list",
+                "operationId": "AddToWaitingList",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "whatsapp_number": {
+                                        "type": "string",
+                                        "format": "phone",
+                                        "example": "0502342345"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "GH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": " 'Success' => 'You have successfully been added to the waitlist.' ",
                         "content": {
                             "application/json": {
                                 "schema": {}

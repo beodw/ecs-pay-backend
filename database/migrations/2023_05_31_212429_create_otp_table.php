@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('otp', function (Blueprint $table) {
+        Schema::create('o_t_p_collections', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
             $table->string('otp');

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\SMS;
+use Illuminate\Http\Request;
+use App\Models\CountryCode;
 
 use Twilio\Rest\Client;
 
@@ -18,6 +20,18 @@ class SmsOtpManager{
         $client = new Client($account_sid, $auth_token);
         $client->messages->create($recipient, 
                 ['from' => $twilio_number, 'body' => $message] );
+    }
+
+     public function sendSms(Request $request, $message){        
+        $country_phone_details = CountryCode::where("code", $request->country_code)->first();
+        
+        //add country code to phone number string.
+        $phone_number = "".$country_phone_details['dial_code']; 
+        
+        // concatenate number without inital zero.
+        $phone_number = $phone_number.substr($request->whatsapp_number, 1);
+
+        $this->sendMessage($message, $phone_number);
     }
 
 }
