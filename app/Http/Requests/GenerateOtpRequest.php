@@ -26,7 +26,7 @@ class GenerateOtpRequest extends FormRequest
         return [
              'whatsapp_number' => [
                 'required',
-                'regex:/^0\d{9,15}$/',
+                'regex:/^\d{9,15}$/',
             ],
             'country_code' => 'required'
         ];

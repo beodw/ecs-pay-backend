@@ -36,7 +36,7 @@ class RegisterUserRequest extends FormRequest
             'password' => 'required|confirmed|min:8',
             'whatsapp_number' => [
                 'required',
-                'regex:/^0\d{9,15}$/',
+                'regex:/^\d{9,15}$/',
             ],
             'country_code' => 'required',
             'country' => 'required',
