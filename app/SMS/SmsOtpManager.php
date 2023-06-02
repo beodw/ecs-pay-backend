@@ -29,7 +29,7 @@ class SmsOtpManager{
         $phone_number = "".$country_phone_details['dial_code']; 
         
         // concatenate number without inital zero.
-        $phone_number = $phone_number.substr($request->whatsapp_number);
+        $phone_number = $phone_number.$request->whatsapp_number;
 
         $this->sendMessage($message, $phone_number);
     }
