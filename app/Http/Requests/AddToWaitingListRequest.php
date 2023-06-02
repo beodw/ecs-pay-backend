@@ -26,7 +26,7 @@ class AddToWaitingListRequest extends FormRequest
         return [
             "email" => "email",
             "whatsapp_number" => [
-                'regex:/^0\d{9,15}$/',
+                'regex:/^\d{9,15}$/',
             ],
             'country_code' => 'required_unless:phone,==,null',
         ];
