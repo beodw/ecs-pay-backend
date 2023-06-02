@@ -94,7 +94,7 @@ class WaitingListController extends Controller
             $phone_number = "".$country_phone_details['dial_code']; 
             
             // concatenate number without inital zero.
-            $phone_number = $phone_number.substr($request->whatsapp_number, 1);
+            // $phone_number = $phone_number.substr($request->whatsapp_number, 1);
 
             //send sms otp
             try {
