@@ -26,6 +26,8 @@ use App\Http\Controllers\WaitingListController;
 
 Route::post('waiting-list-registration', [WaitingListController::class, 'store']);
 
+Route::get('signUpCount', [WaitingListController::class, 'getSignUpCount']);
+
 Route::post('register', [PassportAuthController::class, 'register']);
 
 Route::post('login', [PassportAuthController::class, 'login']);

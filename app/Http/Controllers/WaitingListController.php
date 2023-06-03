@@ -114,6 +114,12 @@ class WaitingListController extends Controller
         return response()->json(["Success" => "You have successfully been added to the waitlist."]);
     }
 
+    public function getSignUpCount(Request $request){
+        return response()->json([
+            "count" => WaitingListRequest::all()->count()
+        ]);
+    }
+
     /**
      * Display the specified resource.
      *
